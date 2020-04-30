@@ -11,8 +11,8 @@
     "format": "prettier --write --list-different \"./*.js\""
   },
   "dependencies": {
-    "@actions/core": "1.2.0",
-    "@actions/github": "1.1.0",
+    "@actions/core": "^1.2.0",
+    "@actions/github": "^1.1.0",
     "lodash.uniq": "4.5.0",
     "node-fetch": "2.6.0"
   },

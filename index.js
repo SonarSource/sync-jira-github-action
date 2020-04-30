@@ -61,7 +61,7 @@ async function run() {
     }
 
     if (!newStatus) {
-      core.info('No new status to transition to.');
+      core.info('No new status to set.');
       return;
     }
 
