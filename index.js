@@ -22,10 +22,10 @@ const jiraLogin = core.getInput('jira-login', { required: true });
 const jiraPassword = core.getInput('jira-password', { required: true });
 const jiraUrl = core.getInput('jira-url', { required: true });
 const jiraProject = core.getInput('jira-project', { required: true });
-const jiraInProgressField = Number(core.getInput('jira-field-inprogress', { required: true }));
-const jiraInReviewField = Number(core.getInput('jira-field-inreview', { required: true }));
-const jiraInTestField = Number(core.getInput('jira-field-intest', { required: true }));
-const jiraResolvedField = Number(core.getInput('jira-field-resolved', { required: true }));
+const jiraInProgressField = parseInt(core.getInput('jira-field-inprogress', { required: true }));
+const jiraInReviewField = parseInt(core.getInput('jira-field-inreview', { required: true }));
+const jiraInTestField = parseInt(core.getInput('jira-field-intest', { required: true }));
+const jiraResolvedField = parseInt(core.getInput('jira-field-resolved', { required: true }));
 const octokit = new github.GitHub(githubToken);
 const jira = new Jira({ baseUrl: jiraUrl, email: jiraLogin, token: jiraPassword });
 
