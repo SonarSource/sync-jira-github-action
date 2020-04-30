@@ -1,0 +1,34 @@
+name: "Synchronize JIRA Tickets"
+description: "Transition JIRA tickets based on the pull request status"
+inputs:
+  github-token:
+    description: "Secret required to access GitHub API"
+    required: true
+  jira-field-inprogress:
+    description: "ID of the status field 'In Progress' of the JIRA project"
+    required: true
+  jira-field-inreview:
+    description: "ID of the status field 'In Review' of the JIRA project"
+    required: true
+  jira-field-intest:
+    description: "ID of the status field 'In Test' of the JIRA project"
+    required: true
+  jira-field-resolved:
+    description: "ID of the status field 'Resolved' of the JIRA project"
+    required: true
+  jira-login:
+    description: "Login with the read permission on the project specified by jira-project"
+    required: true
+  jira-password:
+    description: "The password of jira-login"
+    required: true
+  jira-project:
+    description: "Key of the JIRA project, used as a ticket prefix, for example 'SONAR'."
+    required: true
+  jira-url:
+    description: "Base URL to JIRA"
+    required: true
+    default: "https://jira.sonarsource.com"
+runs:
+  using: "node12"
+  main: "dist/index.js"

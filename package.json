@@ -1,0 +1,28 @@
+{
+  "name": "synchronize-jira",
+  "version": "1.0.0",
+  "description": "Transition jira ticket based on the PR status",
+  "repository": "SonarSource/sonarcloud-core",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "build": "ncc build index.js --minify",
+    "watch": "ncc build index.js --minify --watch",
+    "format": "prettier --write --list-different \"./*.js\""
+  },
+  "dependencies": {
+    "@actions/core": "1.2.0",
+    "@actions/github": "1.1.0",
+    "lodash.uniq": "4.5.0",
+    "node-fetch": "2.6.0"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "0.20.5",
+    "prettier": "1.19.1"
+  },
+  "prettier": {
+    "jsxBracketSameLine": true,
+    "printWidth": 100,
+    "singleQuote": true
+  }
+}
