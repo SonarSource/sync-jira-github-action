@@ -1,10 +1,10 @@
-Synchronize SonarCloud Jira Tickets
+Synchronize JIRA Tickets
 ===================================
 
 Description
 -----------
 
-This GitHub action transitions SonarCloud Jira Tickets based on the pull request status, based on the following logic:
+This GitHub action transitions JIRA tickets according to the change of the pull request status, based on the following logic:
 
 When we receive a PR event we try to:
 - When the PR is `opened` or `synchronize`
