@@ -5,17 +5,21 @@ inputs:
     description: "Secret required to access GitHub API"
     required: true
   jira-field-inprogress:
-    description: "ID of the status field 'In Progress' of the JIRA project"
+    description: "ID of the status field 'In Progress' of the JIRA project. Default value relates to 'Default Agile SonarSource Workflow V7'."
     required: true
+    default: 4
   jira-field-inreview:
-    description: "ID of the status field 'In Review' of the JIRA project"
+    description: "ID of the status field 'In Review' of the JIRA project. Default value relates to 'Default Agile SonarSource Workflow V7'."
     required: true
+    default: 721
   jira-field-intest:
-    description: "ID of the status field 'In Test' of the JIRA project"
+    description: "ID of the status field 'In Test' of the JIRA project. Default value relates to 'Default Agile SonarSource Workflow V7'."
     required: true
+    default: 731
   jira-field-resolved:
-    description: "ID of the status field 'Resolved' of the JIRA project"
+    description: "ID of the status field 'Resolved' of the JIRA project. Default value relates to 'Default Agile SonarSource Workflow V7'."
     required: true
+    default: 5
   jira-login:
     description: "Login with the read permission on the project specified by jira-project"
     required: true
