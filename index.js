@@ -93,13 +93,14 @@ async function fetchJiraTickets() {
   const commits = response.data;
   const tickets = commits
     .map(({ commit }) => {
-      const matchResult = commit.message.match(new RegExp('^(' + jiraProject + '-[0-9]+)'));
+      const matchResult = commit.message.match(new RegExp('^' + jiraProject + '-[0-9]+'));
       return matchResult && matchResult[1];
     })
     .filter(Boolean);
   core.info(`Fetch all commits: ${commits.length} commits found`);
 
-  const ticketsInPRTitle = pull_request.title.match(new RegExp('(' + jiraProject + '-[0-9]+)', 'g')) || [];
+  // Use negative lookbehind ?<! to make sure we won't match WWWSC-125 when jiraProject is "SC"
+  const ticketsInPRTitle = pull_request.title.match(new RegExp('(?<![a-zA-Z])' + jiraProject + '-[0-9]+', 'g')) || [];
   const uniqTickets = uniq([...tickets, ...ticketsInPRTitle]);
   core.info(`${uniqTickets.length} unique tickets found: ${uniqTickets.join(', ')}`);
   return uniqTickets;
