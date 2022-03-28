@@ -36,6 +36,12 @@ async function run() {
   try {
     let newStatus;
     core.info(`Received action "${payload.action}"`);
+
+    if (pull_request.labels.map(x => x.name).includes("common-branch")) {
+      core.info("Detected common-branch label - not performing any change");
+      return;
+    }
+
     switch (payload.action) {
       case 'opened':
       case 'reopened':
