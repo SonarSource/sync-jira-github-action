@@ -36,6 +36,14 @@ async function run() {
   try {
     let newStatus;
     core.info(`Received action "${payload.action}"`);
+
+    const labels = pull_request.labels.map(x => x.name);
+    if (labels.includes("common-branch") &&
+        !(payload.action === 'closed' && pull_request.merged && pull_request.base.ref === 'master')) {
+      core.info("Detected common-branch label - not performing any change");
+      return;
+    }
+
     switch (payload.action) {
       case 'opened':
       case 'reopened':
