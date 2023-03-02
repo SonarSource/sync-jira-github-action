@@ -38,9 +38,11 @@ async function run() {
     core.info(`Received action "${payload.action}"`);
 
     const labels = pull_request.labels.map(x => x.name);
-    if (labels.includes("common-branch") &&
-        !(payload.action === 'closed' && pull_request.merged && pull_request.base.ref === 'master')) {
-      core.info("Detected common-branch label - not performing any change");
+    if (
+      labels.includes('common-branch') &&
+      !(payload.action === 'closed' && pull_request.merged && pull_request.base.ref === 'master')
+    ) {
+      core.info('Detected common-branch label - not performing any change');
       return;
     }
 
@@ -74,6 +76,12 @@ async function run() {
     }
 
     const tickets = await fetchJiraTickets();
+
+    if (tickets.length <= 0) {
+      core.info('No tickets to update.');
+      return;
+    }
+
     const updatableTickets = await filterUpdatableJiraTickets(tickets);
 
     const ticketsThatNeedsTransition = updatableTickets.filter(
@@ -99,16 +107,23 @@ async function fetchJiraTickets() {
     pull_number: pull_request.number
   });
   const commits = response.data;
+  core.info(`Fetched all commits: ${commits.length} commits found.`);
+  core.debug(`Search for tickets "${jiraProject}-XYZ" in commit messages:`);
   const tickets = commits
     .map(({ commit }) => {
+      core.debug(`   - ${commit.message}`);
       const matchResult = commit.message.match(new RegExp('^' + jiraProject + '-[0-9]+'));
-      return matchResult && matchResult[1];
+      return matchResult && matchResult[0];
     })
     .filter(Boolean);
-  core.info(`Fetch all commits: ${commits.length} commits found`);
+  core.debug(`Tickets found in commit messages: ${tickets.join(', ')}`);
 
+  core.debug(`Search for tickets in PR title: ${pull_request.title}`);
   // Use negative lookbehind ?<! to make sure we won't match WWWSC-125 when jiraProject is "SC"
-  const ticketsInPRTitle = pull_request.title.match(new RegExp('(?<![a-zA-Z])' + jiraProject + '-[0-9]+', 'g')) || [];
+  const ticketsInPRTitle =
+    pull_request.title.match(new RegExp('(?<![a-zA-Z])' + jiraProject + '-[0-9]+', 'g')) || [];
+  core.debug(`Tickets found in PR title: ${ticketsInPRTitle.join(', ')}`);
+
   const uniqTickets = uniq([...tickets, ...ticketsInPRTitle]);
   core.info(`${uniqTickets.length} unique tickets found: ${uniqTickets.join(', ')}`);
   return uniqTickets;
@@ -132,7 +147,7 @@ async function filterUpdatableJiraTickets(tickets) {
   );
   core.info(
     'Jira tickets without sub-tasks: ' +
-      filteredJiraIssues.map(ticket => `${ticket.key}[${ticket.status.name}]`).join(', ')
+      filteredJiraIssues.map(ticket => `${ticket.key} [${ticket.status.name}]`).join(', ')
   );
   return filteredJiraIssues;
 }
