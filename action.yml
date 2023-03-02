@@ -34,5 +34,5 @@ inputs:
     required: true
     default: "https://sonarsource.atlassian.net"
 runs:
-  using: "node12"
+  using: "node16"
   main: "dist/index.js"
