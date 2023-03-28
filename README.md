@@ -43,8 +43,8 @@ jobs:
         uses: SonarSource/sync-jira-github-action@master
         with:
           github-token: ${{ secrets.GITHUB_ORG_TOKEN }}
-          jira-login: ${{ secrets.JIRA_LOGIN }}
-          jira-password: ${{ secrets.JIRA_PASSWORD }}
+          jira-login: ${{ fromJSON(steps.secrets.outputs.vault).JIRA_LOGIN }}
+          jira-password: ${{ fromJSON(steps.secrets.outputs.vault).JIRA_PASSWORD }}
           jira-project: SC
           jira-field-inprogress: 4
           jira-field-inreview: 721
@@ -55,7 +55,7 @@ jobs:
 ## Contribute
 
 Changes are to be done in the `index.js` and `Jira.js` files. After modification, a production build must be generated using the `npm run build` command. The `npm run watch` command can also be used while developing to update the build on every change.
-The build generates a file in the `./dist` folder that must be commited and pushed.
+The build generates a file in the `./dist` folder that must be committed and pushed.
 
 ## How to validate changes
 
@@ -64,7 +64,7 @@ It's possible to test and validate changes before merging to master by using the
 - Build this action using `npm run build`, commit it and push it on your branch
 - Create a branch on sonarcloud-core or any other repo that use this action
 - Update this action's yaml file on your new branch to use `SonarSource/sync-jira-github-action@your-branch-name` instead of `SonarSource/sync-jira-github-action@master`
-- Also create a an empty commit starting by a ticket number that you want to use to test the action
+- Also create an empty commit starting by a ticket number that you want to use to test the action
 - Push everything on your branch and create a PR for it
 - The new github action should run and you should be able to see the logs in the "Actions" tab of the PR
   - Once on the action's log you can easily re-run it and enable the debug logs
