@@ -70,8 +70,6 @@ async function run() {
         core.info('Received payload:', JSON.stringify(payload, undefined, 2));
     }
 
-    newStatus = "Resolved";
-
     if (!newStatus) {
       core.info('No new status to set.');
       return;
