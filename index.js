@@ -165,22 +165,27 @@ function transitionJiraTickets(jiraTickets, newStatus) {
   core.info(`Start transitioning ${jiraTickets.length} JIRA tickets...`);
   return Promise.all(
     jiraTickets.map(ticket =>
-      jira.transitionIssue(ticket.id, { transition: { id: transitionsMap[newStatus] } }).then(
-        () => {
-          core.info(
-            `   - ${ticket.key} transition from status "${ticket.status.name}" to "${newStatus}" SUCCESSFUL`
-          );
+      jira
+        .transitionIssue(ticket.id, {
+          transition: { id: transitionsMap[newStatus] },
+          ...(newStatus === 'Resolved' && { fields: { resolution: { name: 'Done' } } })
+        })
+        .then(
+          () => {
+            core.info(
+              `   - ${ticket.key} transition from status "${ticket.status.name}" to "${newStatus}" SUCCESSFUL`
+            );
 
-          if (newStatus === 'In Progress' && ticket.assignee) {
-            assignJiraTicket(ticket, ticket.assignee);
+            if (newStatus === 'In Progress' && ticket.assignee) {
+              assignJiraTicket(ticket, ticket.assignee);
+            }
+          },
+          () => {
+            core.warning(
+              `   - ${ticket.key} transition from status "${ticket.status.name}" to "${newStatus}" FAILED`
+            );
           }
-        },
-        () => {
-          core.warning(
-            `   - ${ticket.key} transition from status "${ticket.status.name}" to "${newStatus}" FAILED`
-          );
-        }
-      )
+        )
     )
   );
 }
