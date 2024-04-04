@@ -2,6 +2,8 @@
 
 ## Description
 
+Disclaimer: this JIRA automation can be skipped by adding the `common-branch` label to Pull Request.
+
 This GitHub action transitions JIRA tickets according to the change of the pull request status, based on the following logic:
 
 When we receive a PR event we try to:
